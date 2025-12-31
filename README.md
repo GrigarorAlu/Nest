@@ -18,7 +18,7 @@ Client:
 
 
 ## Compiling
-To compile Nest client or server, use GCC or LLVM.
+To compile Nest client or server, use GCC or LLVM. There's a build script (`build.bat`), but it works only for Windows
 
 #### Example server (UNIX):
 

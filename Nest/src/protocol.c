@@ -92,7 +92,7 @@ char *serializeInto(char *data, const char *format, ...)
             const char *s = va_arg(args, const char *);
             if (s)
             {
-                int len = strlen(s);
+                short len = strlen(s);
                 memcpy(data, &len, 2);
                 memcpy(data + 2, s, len);
                 data += len;
@@ -193,7 +193,7 @@ char *serializeNew(const char *format, ...)
             const char *s = va_arg(args, const char *);
             if (s)
             {
-                int len = strlen(s);
+                short len = strlen(s);
                 memcpy(p, &len, 2);
                 memcpy(p + 2, s, len);
                 p += len;
@@ -258,16 +258,16 @@ char *deserialize(char *data, size_t maxLen, const char *format, ...)
                 goto err;
             char **t = va_arg(args, char **);
             *t = malloc(datetimeLen + 1);
-            (*t)[datetimeLen] = 0;
             memcpy(*t, data, datetimeLen);
-            data += datetimeLen;
+            (*t)[datetimeLen] = 0;
+            data += datetimeLen + 1;
             break;
         case 's':
             pos += 2;
             if (pos > maxLen)
                 goto err;
             char **s = va_arg(args, char **);
-            int len;
+            short len;
             memcpy(&len, data, 2);
             if (len)
             {
@@ -283,7 +283,7 @@ char *deserialize(char *data, size_t maxLen, const char *format, ...)
             else
             {
                 *s = malloc(1);
-                (*s)[len] = 0;
+                **s = 0;
             }
             data += len + 2;
             break;
